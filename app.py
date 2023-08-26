@@ -80,6 +80,7 @@ def student_home():
 # ========================================================================
 # ALL FACULTY ROUTES HERE
 @app.route('/faculty')
+@prevent_authenticated
 def faculty_login():
     return render_template('faculty/login.html')
 
