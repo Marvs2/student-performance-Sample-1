@@ -85,6 +85,7 @@ def faculty_login():
     return render_template('faculty/login.html')
 
 @app.route('/faculty/home')
+@prevent_authenticated
 @faculty_required
 def faculty_home():
     session.permanent = True
