@@ -9,7 +9,8 @@ db = SQLAlchemy()
 class Student(db.Model, UserMixin):
     __tablename__ = 'students'
 
-    id = db.Column(db.String(30), primary_key=True)  # UserID
+    id = db.Column(db.Integer, primary_key=True) # UserID
+    student_Number = db.Column(db.String(30), unique=True, nullable=False) #StudNumber
     name = db.Column(db.String(50), nullable=False)  # Name
     email = db.Column(db.String(50), unique=True, nullable=False)  # Email
     password = db.Column(db.String(128), nullable=False)  # Password
@@ -23,6 +24,7 @@ class Student(db.Model, UserMixin):
     def to_dict(self):
         return {
             'id': self.id,
+            'student_Number': self.student_Number,
             'name': self.name,
             'email': self.email,
             'password': self.password,
@@ -40,7 +42,8 @@ class Student(db.Model, UserMixin):
 class Faculty(db.Model, UserMixin):
     __tablename__ = 'faculties'
 
-    id = db.Column(db.String(30), primary_key=True)  # UserID
+    id = db.Column(db.Integer, primary_key=True)  # UserID
+    faculty_Number = db.Column(db.String(30), unique=True, nullable=False) #FacultyNumber
     name = db.Column(db.String(50), nullable=False)  # Name
     email = db.Column(db.String(50), unique=True, nullable=False)  # Email
     password = db.Column(db.String(128), nullable=False)  # Password
@@ -53,6 +56,7 @@ class Faculty(db.Model, UserMixin):
     def to_dict(self):
         return {
             'id': self.id,
+            'faculty_Number': self.faculty_Number,
             'name': self.name,
             'email': self.email,
             'password': self.password,
@@ -68,7 +72,8 @@ class Faculty(db.Model, UserMixin):
 class Admin(db.Model, UserMixin):
     __tablename__ = 'admins'
 
-    id = db.Column(db.String(30), primary_key=True)  # UserID
+    id = db.Column(db.Integer, primary_key=True)  # UserID
+    admin_Number = db.Column(db.String(30), unique=True, nullable=False) #AdminNumber
     name = db.Column(db.String(50), nullable=False)  # Name
     email = db.Column(db.String(50), unique=True, nullable=False)  # Email
     password = db.Column(db.String(128), nullable=False)  # Password
@@ -81,6 +86,7 @@ class Admin(db.Model, UserMixin):
     def to_dict(self):
         return {
             'id': self.id,
+            'admin_Number': self.admin_Number,
             'name': self.name,
             'email': self.email,
             'password': self.password,
@@ -107,7 +113,8 @@ def create_sample_data():
     # Create and insert student data
     student_data = [
         {   
-            'id': '2020-00001-CM-0',
+            'id':'1',
+            'student_Number': '2020-00001-CM-0',
             'name': 'Student 1',
             'email': 'student1@example.com',
             'password': generate_password_hash('password1'),
@@ -120,7 +127,8 @@ def create_sample_data():
             # Add more attributes here
         },
         {
-            'id': '2020-00002-CM-0',
+            'id':'2',
+            'student_Number': '2020-00002-CM-0',
             'name': 'Student 2',
             'email': 'student2@example.com',
             'password': generate_password_hash('password2'),
@@ -142,7 +150,8 @@ def create_sample_data():
     # Create and insert faculty data
     faculty_data = [
         {
-            'id': '2020-00001-TC-0',
+            'id': '1',
+            'faculty_Number': '2020-00001-TC-0',
             'name': 'Faculty 1',
             'email': 'faculty1@example.com',
             'password': generate_password_hash('password1'),
@@ -154,7 +163,8 @@ def create_sample_data():
             # Add more attributes here
         },
         {
-            'id': '2020-00002-TC-0',
+            'id': '2',
+            'faculty_Number': '2020-00002-TC-0',
             'name': 'Faculty 2',
             'email': 'faculty2@example.com',
             'password': generate_password_hash('password2'),
@@ -175,7 +185,8 @@ def create_sample_data():
     # Create and insert admin data
     admin_data = [
         {
-            'id': '2020-00001-AD-0',
+            'id': '1',
+            'admin_Number': '2020-00001-AD-0',
             'name': 'Admin 1',
             'email': 'admin1@example.com',
             'password': generate_password_hash('password1'),
@@ -187,7 +198,8 @@ def create_sample_data():
             # Add more attributes here
         },
         {
-            'id': '2020-00002-AD-0',
+            'id': '2',
+            'admin_Number': '2020-00002-AD-0',
             'name': 'Admin 2',
             'email': 'admin2@example.com',
             'password': generate_password_hash('password2'),
