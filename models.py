@@ -95,6 +95,7 @@ class Announcement(db.Model, UserMixin):
     date = db.Column(db.Date)
     time = db.Column(db.Time)
     faculty = db.relationship('Faculty', backref='announcements')
+    students = db.relationship('Student', backref='announcements')
 
 
 
