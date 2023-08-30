@@ -1,59 +1,156 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
 
-    <title>Home Page</title>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <a class="navbar-brand" href="{{ url_for('first') }}">PUP-QC</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Market</a>
-            </li>
-        </ul>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('home') }}">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Register</a>
-            </li>
-        </ul>
-      </div>
-    </nav>
+    <title>Responsive Navbar</title>
+</head>
 
-    <h1>Home Page</h1>
+<body>
+    <header>
+        <div class="container">
+            <input type="checkbox" name="" id="check">
+            
+            <div class="logo-container">
+                <h3 class="logo">Brand<span>Name</span></h3>
+            </div>
 
-    <!-- Optional JavaScript; choose one of the two! -->
+            <div class="nav-btn">
+                <div class="nav-links">
+                    <ul>
+                        <li class="nav-link" style="--i: .6s">
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="nav-link" style="--i: .85s">
+                            <a href="#">Menu<i class="fas fa-caret-down"></i></a>
+                            <div class="dropdown">
+                                <ul>
+                                    <li class="dropdown-link">
+                                        <a href="#">Link 1</a>
+                                    </li>
+                                    <li class="dropdown-link">
+                                        <a href="#">Link 2</a>
+                                    </li>
+                                    <li class="dropdown-link">
+                                        <a href="#">Link 3<i class="fas fa-caret-down"></i></a>
+                                        <div class="dropdown second">
+                                            <ul>
+                                                <li class="dropdown-link">
+                                                    <a href="#">Link 1</a>
+                                                </li>
+                                                <li class="dropdown-link">
+                                                    <a href="#">Link 2</a>
+                                                </li>
+                                                <li class="dropdown-link">
+                                                    <a href="#">Link 3</a>
+                                                </li>
+                                                <li class="dropdown-link">
+                                                    <a href="#">More<i class="fas fa-caret-down"></i></a>
+                                                    <div class="dropdown second">
+                                                        <ul>
+                                                            <li class="dropdown-link">
+                                                                <a href="#">Link 1</a>
+                                                            </li>
+                                                            <li class="dropdown-link">
+                                                                <a href="#">Link 2</a>
+                                                            </li>
+                                                            <li class="dropdown-link">
+                                                                <a href="#">Link 3</a>
+                                                            </li>
+                                                            <div class="arrow"></div>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                <div class="arrow"></div>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-link">
+                                        <a href="#">Link 4</a>
+                                    </li>
+                                    <div class="arrow"></div>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-link" style="--i: 1.1s">
+                            <a href="#">Services<i class="fas fa-caret-down"></i></a>
+                            <div class="dropdown">
+                                <ul>
+                                    <li class="dropdown-link">
+                                        <a href="#">Link 1</a>
+                                    </li>
+                                    <li class="dropdown-link">
+                                        <a href="#">Link 2</a>
+                                    </li>
+                                    <li class="dropdown-link">
+                                        <a href="#">Link 3<i class="fas fa-caret-down"></i></a>
+                                        <div class="dropdown second">
+                                            <ul>
+                                                <li class="dropdown-link">
+                                                    <a href="#">Link 1</a>
+                                                </li>
+                                                <li class="dropdown-link">
+                                                    <a href="#">Link 2</a>
+                                                </li>
+                                                <li class="dropdown-link">
+                                                    <a href="#">Link 3</a>
+                                                </li>
+                                                <li class="dropdown-link">
+                                                    <a href="#">More<i class="fas fa-caret-down"></i></a>
+                                                    <div class="dropdown second">
+                                                        <ul>
+                                                            <li class="dropdown-link">
+                                                                <a href="#">Link 1</a>
+                                                            </li>
+                                                            <li class="dropdown-link">
+                                                                <a href="#">Link 2</a>
+                                                            </li>
+                                                            <li class="dropdown-link">
+                                                                <a href="#">Link 3</a>
+                                                            </li>
+                                                            <div class="arrow"></div>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                <div class="arrow"></div>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-link">
+                                        <a href="#">Link 4</a>
+                                    </li>
+                                    <div class="arrow"></div>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-link" style="--i: 1.35s">
+                            <a href="#">About</a>
+                        </li>
+                    </ul>
+                </div>
 
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+                <div class="log-sign" style="--i: 1.8s">
+                    <a href="#" class="btn transparent">Log in</a>
+                    <a href="#" class="btn solid">Sign up</a>
+                </div>
+            </div>
 
-    <!-- Option 2: jQuery, Popper.js, and Bootstrap JS
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-    -->
-  </body>
-  <style>
-      body {
-        background-color: #212121;
-        color: white
-      }
-  </style>
+            <div class="hamburger-menu-container">
+                <div class="hamburger-menu">
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section>
+            <div class="overlay"></div>
+        </section>
+    </main>
+</body>
+
 </html>
