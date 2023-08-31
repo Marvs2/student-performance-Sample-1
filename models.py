@@ -10,7 +10,7 @@ class Student(db.Model, UserMixin):
     __tablename__ = 'students'
 
     id = db.Column(db.Integer, primary_key=True)
-    studentNumber = db.Column(db.String(50), unique=True, nullable=False)
+    studentsNumber = db.Column(db.String(50), unique=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)  
     email = db.Column(db.String(50), unique=True, nullable=False) 
     address = db.Column(db.String(50), nullable=True) 
@@ -24,7 +24,7 @@ class Student(db.Model, UserMixin):
     def to_dict(self):
         return {
             'id': self.id,
-            'studentNumber': self.studentNumber,
+            'studentsNumber': self.studentsNumber,
             'name': self.name,
             'email': self.email,
             'address': self.address, 
@@ -48,7 +48,7 @@ class Payment(db.Model, UserMixin):
     totalPayment = db.Column(db.DECIMAL)  # You can specify precision and scale if needed
     dateofPayment = db.Column(db.Date)
     proofofPayment = db.Column(db.String(255))  # Modify the length as needed
-   # student = db.relationship('Student', backref='payments')
+    stud_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
 
 
     def to_dict(self):
@@ -59,6 +59,7 @@ class Payment(db.Model, UserMixin):
             'totalPayment': float(self.totalPayment),  # Convert DECIMAL to float for JSON serialization
             'dateofPayment': str(self.dateofPayment),  # Convert Date to string for JSON serialization
             'proofofPayment': self.proofofPayment,
+            'stud_id': self.stud_id
         }
     # **How to call it
     #payment = Payment.query.get(some_payment_id)
@@ -68,12 +69,13 @@ class Payment(db.Model, UserMixin):
 
 class Service(db.Model, UserMixin):
     __tablename__ = 'services'
+
     serviceID = db.Column(db.Integer, primary_key=True)
- #  # id = db.Column(db.Integer, db.ForeignKey('students.id'))
     typeofServices = db.Column(db.String(50))
-    status = db.Column(db.String(50))  # Modify the length as needed
+    status = db.Column(db.String(50)) #Modifythelength
     dateofServices = db.Column(db.Date)
- #   student = db.relationship('Student', backref='services')
+    proofofServices = db.Column(db.String(255))
+    stud_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
 
     def to_dict(self):
         return {
@@ -81,8 +83,9 @@ class Service(db.Model, UserMixin):
    #         'id': self.id,
             'typeofServices': self.typeofServices,
             'status': self.status,
-            'dateofServices': str(self.dateofServices),  
-            # Convert Date to string for JSON serialization
+            'dateofServices': str(self.dateofServices),
+            'proofofServices': self.proofofServices,
+            'stud_id': self.stud_id
         }
     # **How to call it
     # service = Service.query.get(some_service_id)
@@ -93,21 +96,20 @@ class Service(db.Model, UserMixin):
 class Feedback(db.Model, UserMixin):
     __tablename__ = 'feedbacks'
     feedbackID = db.Column(db.Integer, primary_key=True)
-   # id = db.Column(db.Integer, db.ForeignKey('students.id'))
     name = db.Column(db.String(50))
     emailAddress = db.Column(db.String(50))
     ratings = db.Column(db.Integer)  # Assuming ratings are integers
     feedBacks = db.Column(db.TEXT)  # Modify the data type as needed
-  #  student = db.relationship('Student', backref='feedbacks')
+    stud_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
 
     def to_dict(self):
         return {
             'feedbackID': self.feedbackID,
-    #        'id': self.id,
             'name': self.name,
             'emailAddress': self.emailAddress,
             'ratings': self.ratings,
             'feedBacks': self.feedBacks,
+            'stud_id': self.stud_id
         }
     # **How to call it
     # service = Service.query.get(some_service_id)
@@ -119,24 +121,23 @@ class Complaint(db.Model, UserMixin):
     __tablename__ = 'complaints'
     
     complaintID = db.Column(db.Integer, primary_key=True)
-   # id = db.Column(db.Integer, db.ForeignKey('students.id'))
     name = db.Column(db.String(50))
     emailAddress = db.Column(db.String(50))
     complaintDetails = db.Column(db.TEXT)
     complaintFile = db.Column(db.String(255))  # Modify the length as needed
     dateofComplaint = db.Column(db.Date)
- #   student = db.relationship('Student', backref='complaints')
+    stud_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
 
 
     def to_dict(self):
         return {
             'complaintID': self.complaintID,
-        #    'id': self.id,
             'name': self.name,
             'emailAddress': self.emailAddress,
             'complaintDetails': self.complaintDetails,
             'complaintFile': self.complaintFile,
             'dateofComplaint': str(self.dateofComplaint),  # Convert Date to string for JSON serialization
+            'stud_id': self.stud_id
         }
     # **How to call it
     # complaint = Complaint.query.get(some_complaint_id)
@@ -147,14 +148,12 @@ class Complaint(db.Model, UserMixin):
 class Announcement(db.Model, UserMixin):
     __tablename__ = 'announcements'
     announcementID = db.Column(db.Integer, primary_key=True)
-   # id = db.Column(db.Integer, db.ForeignKey('students.id'))
-   # facultyID = db.Column(db.Integer, db.ForeignKey('faculties.facultyID'))
     announcementType = db.Column(db.String(50))  # e.g., 'General', 'Event', etc.
     announcementDetails = db.Column(db.TEXT)
     date = db.Column(db.Date)
     time = db.Column(db.Time)
-   # faculty = db.relationship('Faculty', backref='announcements')
-  #  students = db.relationship('Student', backref='announcements')
+    stud_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
+    fac_id = db.Column(db.Integer, db.ForeignKey('faculties.facultyID'), nullable=False)
 
 
     def to_dict(self):
@@ -166,6 +165,18 @@ class Announcement(db.Model, UserMixin):
             'announcementDetails': self.announcementDetails,
             'date': str(self.date),  # Convert Date to string for JSON serialization
             'time': str(self.time),  # Convert Time to string for JSON serialization
+            #            'courseCode': self.courseCode,
+            #             'sectionNumber': self.sectionNumber,
+            #                'professorName': self.professorName,
+            #                    'roomNo': self.roomNo,
+            #                        'startDate': str(self.startDate),   #Convert Start Date and End Date to strings for JSON Serialization
+            #                        'startTime': str(self.startTime),   # Convert Start Time to string for JSON serialization
+            #                     'startDate': str(self.startDate),   # Convert Start Date to string for JSON Serialization
+            #                     'startTime': str(self.startTime),   #Convert StartTime and EndTime to strings so that they can be serialized in json format
+            #                        'dayOfWeek': self.dayOfWeek,
+            #                            'startTime': self.startTime,
+            #                                'endTime': self.endTime,
+            'user_id': self.user_id
         }
     # **How to call it
     # announcement = Announcement.query.get(some_announcement_id)
@@ -252,13 +263,13 @@ def init_db(app):
 #=====================================================================================================
 # INSERTING DATA
 def create_sample_data():
-    # Create and insert student data
-    student_data = [
+    # Create and insert students data
+    students_data = [
         {   
             'id':'1',
-            'studentNumber': '2020-00001-CM-0',
-            'name': 'Student 1',
-            'email': 'student1@example.com',
+            'studentsNumber': '2020-00001-CM-0',
+            'name': 'Students 1',
+            'email': 'students1@example.com',
             'address': '301 Don Fabian st. Commonwealth City 1',
             'password': generate_password_hash('password1'),
             'gender': 1,
@@ -269,9 +280,9 @@ def create_sample_data():
         },
         {
             'id':'2',
-            'studentNumber': '2020-00002-CM-0',
-            'name': 'Student 2',
-            'email': 'student2@example.com',
+            'studentsNumber': '2020-00002-CM-0',
+            'name': 'Students 2',
+            'email': 'students2@example.com',
             'address': '201 Don Juan st. Commonwealth City 2',
             'password': generate_password_hash('password2'),
             'gender': 2,
@@ -280,12 +291,13 @@ def create_sample_data():
             'mobileNumber': '09123123124',
             'userImg': 'pup2.jpg'
         },
-        # Add more student data as needed
+        # Add more students data as needed
     ]
     
-    for data in student_data:
-        student = Student(**data)
-        db.session.add(student)
+    for data in students_data:
+        students = Student(**data)
+        db.session.add(students)
+        db.session.flush()
 
     # Create and insert faculty data
     faculty_data = [
@@ -325,6 +337,7 @@ def create_sample_data():
     for data in faculty_data:
         faculty = Faculty(**data)
         db.session.add(faculty)
+        db.session.flush()
         
     # Create and insert admin data
     admin_data = [
@@ -358,6 +371,7 @@ def create_sample_data():
     for data in admin_data:
         admin = Admin(**data)
         db.session.add(admin)
+        db.session.flush()
 
     db.session.commit()
 
