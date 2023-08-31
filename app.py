@@ -49,6 +49,11 @@ def first():
     session.permanent = True
     return render_template('first/base.html')
 
+@app.route('/first/home')
+def index():
+    session.permanent = True
+    return render_template('first/home.html')
+
 #===========================================================================
 # ROUTING FOR YOUR APPLICATION (http:localhost:3000)
 @app.route('/main')
@@ -61,7 +66,7 @@ def home():
 def logout():
     # Clear session data including JWT token and user role
     session.clear()
-    return redirect(url_for('home'))  # Redirect to home or appropriate route
+    return redirect(url_for('student_login'))  # Redirect to home or appropriate route
 
 # ========================================================================
 # ALL STUDENT ROUTES HERE

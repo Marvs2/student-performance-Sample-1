@@ -33,10 +33,10 @@ CORS(student_api)  # Apply CORS to the student_api blueprint
 @student_api.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
+        studentsNumber = request.form['studentsNumber']
         password = request.form['password']
         
-        student = Student.query.filter_by(email=email).first()
+        student = Student.query.filter_by(studentsNumber=studentsNumber).first()
         if student and check_password_hash(student.password, password):
             # Successfully authenticated
             access_token = create_access_token(identity=student.id)
