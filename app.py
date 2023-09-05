@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, jsonify, redirect, url_for, session
+from flask import Flask, render_template, jsonify, redirect, request, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 
 from Api.v1.student.api_routes import student_api  
@@ -77,10 +77,24 @@ def student_login():
     return render_template('student/login.html')
 
 @app.route('/student/home')
+@prevent_authenticated
 @student_required
 def student_home():
     session.permanent = True
     return render_template('student/home.html')
+
+#@app.route('/student/home/add', methods=["POST"])
+#def add():
+#    title = request.form.get("title")
+#    new_todo = Todo(title=title, complete=False)
+#    db.session.add(new_todo)
+#    return redirect(url_for("student/home")) 
+
+#@app.route('/student/dashboard')
+#def dashboard():
+#    return render_template('student/dashboard.html')
+
+
 
 # ========================================================================
 # ALL FACULTY ROUTES HERE
@@ -134,6 +148,17 @@ def get_student_json():
         student_list.append(student_data)
 
     return jsonify(student_list)
+
+# ========================================================================
+# Username
+@app.context_processor
+def custom_context_processor():
+    authenticated = False
+    student_name = ""  # Initialize with an empty string
+    if 'user_role' in session and 'student_name' in session:
+        authenticated = True
+        student_name = session['student.name']
+    return {'authenticated': authenticated, 'student_name': student_name}
 
 # ... other route registrations ...
 # ========================================================================

@@ -92,7 +92,7 @@ class Service(db.Model, UserMixin):
     # service_data = service.to_dict()
         def get_serviceID(self):
             return str(self.serviceID)  # Convert to string to ensure compatibility
-
+    
 class Feedback(db.Model, UserMixin):
     __tablename__ = 'feedbacks'
     feedbackID = db.Column(db.Integer, primary_key=True)
