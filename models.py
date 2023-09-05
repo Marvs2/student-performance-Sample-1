@@ -189,7 +189,7 @@ class Faculty(db.Model, UserMixin):
     __tablename__ = 'faculties'
 
     facultyID = db.Column(db.Integer, primary_key=True)  # UserID
-    faculty_Number = db.Column(db.String(30), unique=True, nullable=False) #Faculty_Number
+    facultyNumber = db.Column(db.String(30), unique=True, nullable=False) #FacultyNumber
     userType = db.Column(db.String(50))  # e.g., 'Admin', 'Professor', etc.
     name = db.Column(db.String(50), nullable=False)  # Name
     email = db.Column(db.String(50), unique=True, nullable=False)  # Email
@@ -205,7 +205,7 @@ class Faculty(db.Model, UserMixin):
     def to_dict(self):
         return {
             'facultyID': self.facultyID,
-            'faculty_Number': self.faculty_Number,
+            'facultyNumber': self.facultyNumber,
             'userType': self.userType,
             'name': self.name,
             'email': self.email,
@@ -297,13 +297,12 @@ def create_sample_data():
     for data in students_data:
         students = Student(**data)
         db.session.add(students)
-        db.session.flush()
-
+        db.session.flush
     # Create and insert faculty data
     faculty_data = [
         {
             'facultyID':'1',
-            'faculty_Number': '2020-00001-TC-0',
+            'facultyNumber': '2020-00001-TC-0',
             'userType': 'Professor',
             'name': 'Faculty 1',
             'email': 'faculty1@example.com',
@@ -318,7 +317,7 @@ def create_sample_data():
         },
         {
             'facultyID': '2',
-            'faculty_Number': '2020-00002-TC-0',
+            'facultyNumber': '2020-00002-TC-0',
             'userType': 'Professor',
             'name': 'Faculty 2',
             'email': 'faculty2@example.com',

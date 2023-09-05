@@ -1,4 +1,5 @@
 
+from functools import wraps
 from flask import Flask, render_template, jsonify, redirect, request, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 
@@ -36,10 +37,34 @@ def custom_context_processor():
         authenticated = True
     return {'authenticated': authenticated}
 
+# Define the @prevent_authenticated decorator
+def prevent_authenticated(view):
+    @wraps(view)
+    def wrapped_view(*args, **kwargs):
+        if 'user_role' in session:
+            # User is already authenticated
+            if session['user_role'] == 'student':
+                return redirect(url_for('student_home'))
+            elif session['user_role'] == 'faculty':
+                return redirect(url_for('faculty_home'))
+            elif session['user_role'] == 'admin':
+                return redirect(url_for('admin_home'))
+        return view(*args, **kwargs)
+    return wrapped_view
+
+# ...
+
 
 #=========================================================================
 # TESTING AREA
 
+@app.after_request
+def add_header(response):
+    if request.path in ['/student', '/student/home', '/faculty', '/faculty/home']:
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+    return response
 
 
 #===========================================================================
@@ -61,60 +86,60 @@ def index():
 def home():
     session.permanent = True
     return render_template('main/index.html')
-
-@app.route('/logout')
-def logout():
-    # Clear session data including JWT token and user role
-    session.clear()
-    return redirect(url_for('student_login'))  # Redirect to home or appropriate route
+# ...
 
 # ========================================================================
 # ALL STUDENT ROUTES HERE
 @app.route('/student')
-@prevent_authenticated
+@prevent_authenticated  # Use the @prevent_authenticated decorator
 def student_login():
     session.permanent = True
     return render_template('student/login.html')
 
 @app.route('/student/home')
-@prevent_authenticated
 @student_required
 def student_home():
     session.permanent = True
     return render_template('student/home.html')
 
-#@app.route('/student/home/add', methods=["POST"])
-#def add():
-#    title = request.form.get("title")
-#    new_todo = Todo(title=title, complete=False)
-#    db.session.add(new_todo)
-#    return redirect(url_for("student/home")) 
+@app.route('/student/logout')
+@student_required  # Require authentication for the logout route
+def logout_student():
+    # Clear session data including JWT token and user role
+    session.clear()
+    return redirect(url_for('student_login'))
+    # Redirect to home or appropriate route
 
-#@app.route('/student/dashboard')
-#def dashboard():
-#    return render_template('student/dashboard.html')
-
-
+# ...
 
 # ========================================================================
 # ALL FACULTY ROUTES HERE
 @app.route('/faculty')
-@prevent_authenticated
+@prevent_authenticated  # Use the @prevent_authenticated decorator
 def faculty_login():
+    session.permanent = True
     return render_template('faculty/login.html')
 
 @app.route('/faculty/home')
-@prevent_authenticated
 @faculty_required
 def faculty_home():
     session.permanent = True
     return render_template('faculty/home.html')
 
+@app.route('/faculty/logout')
+@faculty_required  # Require authentication for the logout route
+def logout_faculty():
+    # Clear session data including JWT token and user role
+    session.clear()
+    return redirect(url_for('faculty_login'))
+    # Redirect to home or appropriate route
+
+# ...
 
 # ========================================================================
 # ALL ADMIN ROUTES HERE
 @app.route('/admin')
-@prevent_authenticated
+@prevent_authenticated  # Use the @prevent_authenticated decorator
 def admin_login():
     return render_template('admin/login.html')
 
@@ -123,6 +148,14 @@ def admin_login():
 def admin_home():
     session.permanent = True
     return render_template('admin/home.html')
+
+@app.route('/admin/logout')
+@admin_required  # Require authentication for the logout route
+def logout_admin():
+    # Clear session data including JWT token and user role
+    session.clear()
+    return redirect(url_for('admin_login'))
+    # Redirect to home or appropriate route
 
 # ========================================================================
 # Register the API blueprint
