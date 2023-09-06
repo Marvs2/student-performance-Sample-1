@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 from sqlalchemy import inspect
 from werkzeug.security import generate_password_hash
 from flask_login import UserMixin
@@ -183,6 +184,26 @@ class Announcement(db.Model, UserMixin):
     # announcement_data = announcement.to_dict()
     def get_announcementID(self):
         return str(self.announcementID)  # Convert to string to ensure compatibility
+
+
+#============================================
+class Notification(db.Model):
+    __tablename__ = 'notifications'
+
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(255), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    is_read = db.Column(db.Boolean, default=False, nullable=False)
+
+    def __init__(self, content, user_id):
+        self.content = content
+        self.user_id = user_id
+
+
+
+
+#============================================
 
 
 class Faculty(db.Model, UserMixin):
