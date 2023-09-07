@@ -1,6 +1,6 @@
-
+from flask_jwt_extended import jwt_required
 from functools import wraps
-from flask import Flask, render_template, jsonify, redirect, request, url_for, session
+from flask import Flask, flash, render_template, jsonify, redirect, request, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 
 from Api.v1.student.api_routes import student_api  
@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 
 from models import init_db, Student, Faculty, Admin
 
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager, get_jwt_identity
 from flask_login import LoginManager, logout_user, current_user
 
 from decorators.auth_decorators import student_required, faculty_required, prevent_authenticated, admin_required
@@ -96,11 +96,70 @@ def student_login():
     session.permanent = True
     return render_template('student/login.html')
 
+
 @app.route('/student/home')
 @student_required
 def student_home():
     session.permanent = True
-    return render_template('student/home.html')
+    student = ...  # Retrieve the student object, e.g., from the session or database
+    return render_template('student/home.html', student=student)
+
+    
+@app.route('/student/home/student_profile')
+@student_required
+def student_profile():
+    session.update()
+    student_id = 1  # Replace with the actual student ID you want to retrieve
+    student = Student.query.get(student_id)
+
+    if student:
+        return render_template('student/student_profile.html', student=student)
+    else:
+        # Handle the case where the student is not found
+        return "Student not found", 404
+
+
+
+#@app.route('/student/home/update_profile', methods=['GET', 'POST', 'PUT'])
+#@jwt_required()
+#def update_student_profile():
+#    current_user_id = get_jwt_identity()
+#    student = Student.query.get(current_user_id)
+
+#    if not student:
+#        flash('Student not found', 'danger')
+#        return redirect(url_for('student_home'))
+
+#    if request.method == 'POST':
+        # Get the form data
+#        student.name = request.form.get('name', student.name)
+#        student.email = request.form.get('email', student.email)
+#        student.address = request.form.get('address', student.address)
+#        student.dateofBirth = request.form.get('dateofBirth', student.dateofBirth)
+#        student.placeofBirth = request.form.get('placeofBirth', student.placeofBirth)
+#        student.mobileNumber = request.form.get('mobileNumber', student.mobileNumber)
+#        student.userImg = request.form.get('userImg', student.userImg)
+
+        # Save changes to the database
+#        db.session.commit()
+
+#        flash('Student information updated successfully', 'success')
+#        return redirect(url_for('update_student_profile'))
+
+#    return redirect(url_for('update_student_profile'))
+
+
+
+
+# Profile of Student
+#@app.route('/student/home/student_profile')
+#@student_required
+#def student_profile():
+#    session.update()
+#    student = Student.query.get(current_user_id)  # Get the updated student information
+#    return render_template('student/student_profile.html', student=student)
+
+
 
 @app.route('/student/logout')
 @student_required  # Require authentication for the logout route
@@ -125,6 +184,11 @@ def faculty_login():
 def faculty_home():
     session.permanent = True
     return render_template('faculty/home.html')
+
+@app.route('/faculty/announcements')
+@faculty_required
+def create_announcements():
+    return render_template('faculty/announcements.html')
 
 @app.route('/faculty/logout')
 @faculty_required  # Require authentication for the logout route

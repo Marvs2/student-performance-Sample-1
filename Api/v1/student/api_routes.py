@@ -1,6 +1,6 @@
 # api/api_routes.py
 from flask import Blueprint, jsonify, request, redirect, url_for, flash, session
-from models import  Student
+from models import  Student, db
 
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
@@ -73,3 +73,29 @@ def allstudent():
         return jsonify(message="You got API data")
     else:
         return jsonify(message="Invalid key you cant have an access")
+
+# ...
+
+#@student_api.route('/update/<int:student_id>', methods=['POST','PUT', 'DELETE'])
+#@jwt_required()
+#def update_student(student_id):
+#    current_user_id = get_jwt_identity()
+#    student = Student.query.get(student_id)
+
+#    if not student:
+#        return jsonify(message="Student not found"), 404
+
+#    if student.id != current_user_id:
+#        return jsonify(message="Unauthorized"), 401
+
+#    if request.method == 'POST':
+        # Update student information based on the form data
+#        student.name = request.form.get('name', student.name)
+#        student.email = request.form.get('email', student.email)
+#        student.address = request.form.get('address', student.address)
+#        student.dateofBirth = request.form.get('dateofBirth', student.dateofBirth)
+#        student.placeofBirth = request.form.get('placeofBirth', student.placeofBirth)
+#        student.mobileNumber = request.form.get('mobileNumber', student.mobileNumber)
+#        student.userImg = request.form.get('userImg', student.userImg)
+#        db.session.commit()
+#        return jsonify(message="Student information updated successfully")
